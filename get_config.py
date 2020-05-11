@@ -15,31 +15,33 @@ def main():
 #		else:
 #			print ('Config_backup directory found')
 
-
+	pwd=os.getcwd()
 	with open('ip.txt','r')as f:
-		IPs = [line.strip() for line in f]
+		hosts = [line.strip() for line in f]
 
 	#check_dir()
 	uname = input('Username: ')
-	pwd = getpass.getpass()
-	for ip in IPs:
+	passwd = getpass.getpass()
+	for item in hosts:
+		arr=item.split(",")
+		hostname=arr[1]
+		ip=arr[0]
 		cisco_ios = {
 						'device_type':'cisco_ios',
 						'ip':ip,
 						'username':uname,
-						'password':pwd,
-						'secret':pwd,
+						'password':passwd,
+						'secret':passwd,
 						}
 
-		print ('\n>>>> \033[0;33mChecking ip: '+ip+' \033[0;0m<<<<<')
+		print ('\n>>>> \033[0;33mChecking: '+ip+' '+hostname+'\033[0;0m <<<<<')
 		try:
-			os.system('touch /home/fhemeng/'+ip+'-config')
 			net_connect=netmiko.ConnectHandler(**cisco_ios)
 			output = net_connect.send_command('show config')
 			net_connect.disconnect()
-			file = open("/home/fhemeng/"+ip+"-config","a")
+			file = open(pwd+'/'+ip+"_"+hostname+"_config","a")
 			file.write(output)
-			#print ('\033[1;33mDone! File is located in /root/Config_backup dir.\033[0;0m')
+			print ('\033[1;33mDone! File is located in '+pwd+'.\033[0;0m')
 
 		except netmiko.NetMikoTimeoutException:
 			print ('Connection Failed For Unknown Reason: '+ip)
