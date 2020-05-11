@@ -7,13 +7,6 @@ import getpass
 
 
 def main():
-#	def check_dir():
-#		proc1 = subprocess.Popen(['ls'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-#		out,err = proc1.communicate()
-#		if out.find('Config_backup') == -1:
-#			os.system('mkdir /home/fhemeng/Config_backup')
-#		else:
-#			print ('Config_backup directory found')
 
 	pwd=os.getcwd()
 	with open('ip.txt','r')as f:
@@ -53,7 +46,6 @@ if __name__ == '__main__':
 		main()	
 	except IOError:
 		print ("Can't find ip.txt. Generating one...")
-		#os.system('/opt/PIPlatform/sbin/fi_psql_shell.sh "select management_ip from pidb_networkdevice;" > ip.txt') #Gets list of IP from FI's SQL db
 		#edt = open('ip.txt','r+')
 		#lnes = edt.readlines()
 		#edt.seek(0)
